@@ -1,143 +1,150 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom'; // Simple Routing Import
-import { Search, ShoppingBag, User, Menu } from 'lucide-react';
+import { Link, useLocation } from 'react-router-dom';
+import { Search, ShoppingBag, User, Menu, X } from 'lucide-react';
 import { useCart } from '../context/CartContext';
-
 
 const Navbar = () => {
   const location = useLocation();
   const isHomePage = location.pathname === '/';
   const { setIsCartOpen, cartCount } = useCart();
   
-  // --- 1. Top Bar Messages Logic ---
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [msgIndex, setMsgIndex] = useState(0);
+  const [placeholder, setPlaceholder] = useState("");
+
   const messages = ["Get any 3 products for just ₹899", "FLAT 5% OFF ON ALL PREPAID ORDERS"];
+  const searchTerms = ["Perfumes", "CEO Man", "Body Wash", "Best Sellers", "Gifting"];
+
   useEffect(() => {
     const timer = setInterval(() => setMsgIndex(prev => (prev + 1) % messages.length), 3000);
     return () => clearInterval(timer);
   }, []);
 
-  // --- 2. Typewriter Search Logic ---
-  const [placeholder, setPlaceholder] = useState("");
-  const searchTerms = ["Perfumes", "CEO Man", "Body Wash", "Best Sellers", "Gifting"];
   useEffect(() => {
     let txt = ""; let isDeleting = false; let termIdx = 0;
     const type = () => {
       const fullTxt = `Search for "${searchTerms[termIdx]}"`;
       txt = isDeleting ? fullTxt.substring(0, txt.length - 1) : fullTxt.substring(0, txt.length + 1);
       setPlaceholder(txt);
-      let typeSpeed = isDeleting ? 50 : 100;
-      if (!isDeleting && txt === fullTxt) { typeSpeed = 2000; isDeleting = true; }
+      let speed = isDeleting ? 50 : 100;
+      if (!isDeleting && txt === fullTxt) { speed = 2000; isDeleting = true; }
       else if (isDeleting && txt === "") { isDeleting = false; termIdx = (termIdx + 1) % searchTerms.length; }
-      setTimeout(type, typeSpeed);
+      setTimeout(type, speed);
     };
-    const t = setTimeout(type, 100);
-    return () => clearTimeout(t);
+    setTimeout(type, 100);
   }, []);
 
-  // --- Styles ---
-  const navClass = isHomePage ? "absolute top-0 left-0 w-full z-50 group text-white hover:text-black" : "sticky top-0 w-full z-50 bg-white shadow-sm text-black";
-  const borderClass = isHomePage ? "border-white/50 group-hover:border-gray-300" : "border-gray-300";
+  const navLinks = [
+    { name: 'Crazy Deals', path: '/crazy-deals', color: 'text-red-500' },
+    { name: 'Shop All', path: '/shop' },
+    { name: 'Bath&Body', path: '/bath&body' },
+    { name: 'Bestsellers', path: '/bestseller' },
+    { name: 'Gifting', path: '/gifting' },
+    { name: 'Perfumes', path: '/perfumes' },
+    { name: 'New Arrivals', path: '/newarrivals' },
+  ];
 
   return (
-    <header className={navClass}>
-      
-      {/* Top Bar */}
-      <div className="bg-black text-white text-center text-[10px] py-2 font-medium tracking-wide uppercase">
-        {messages[msgIndex]}
-      </div>
+    <>
+      {/* Mobile Search Overlay (Full Width under Top Bar) */}
+      {isMobileSearchOpen && (
+        <div className="fixed top-0 left-0 w-full bg-white z-110 p-4 shadow-md lg:hidden flex items-center gap-3 animate-in slide-in-from-top">
+          <Search className="w-5 h-5 text-gray-400" />
+          <input 
+            autoFocus 
+            type="text" 
+            placeholder={placeholder} 
+            className="flex-1 outline-none text-sm text-black"
+          />
+          <X className="w-6 h-6 cursor-pointer text-black" onClick={() => setIsMobileSearchOpen(false)} />
+        </div>
+      )}
 
-      <nav className="relative border-b border-transparent hover:border-gray-100 transition-all duration-300">
+      <header className={isHomePage ? "absolute top-0 w-full z-50 group text-white hover:text-black transition-all duration-500" : "sticky top-0 w-full z-50 bg-white shadow-sm text-black"}>
         
-        {/* White Curtain Animation (Home Page Only) */}
-        {isHomePage && (
-           <div className="absolute inset-0 bg-white transform -translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-in-out -z-10 shadow-md"></div>
-        )}
+        {/* Top Bar */}
+        <div className="bg-black text-white text-center text-[10px] py-2 font-medium uppercase tracking-widest">
+          {messages[msgIndex]}
+        </div>
 
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex justify-between items-center h-16">
+        <nav className="relative border-b border-transparent hover:border-gray-100">
+          {isHomePage && <div className="absolute inset-0 bg-white transform -translate-y-full group-hover:translate-y-0 transition-transform duration-500 -z-10" />}
+
+          <div className="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
             
-            {/* Left: Search Bar */}
+            {/* Left Section */}
             <div className="flex-1 flex items-center gap-4">
-              <Menu className="lg:hidden w-5 h-5 cursor-pointer" />
-              <div className={`hidden lg:flex items-center border-b ${borderClass} py-1 w-64 transition-colors`}>
-                 <Search className="w-3.5 h-3.5 mr-2 opacity-70" />
-                 <input type="text" placeholder={placeholder} className="bg-transparent outline-none text-xs w-full placeholder-current opacity-70 font-medium" />
+              <Menu className="lg:hidden w-6 h-6 cursor-pointer" onClick={() => setIsMobileMenuOpen(true)} />
+              
+              {/* Desktop Search Only */}
+              <div className="hidden lg:flex items-center border-b border-current py-1 w-64">
+                <Search className="w-4 h-4 mr-2 opacity-70" />
+                <input type="text" placeholder={placeholder} className="bg-transparent outline-none text-xs w-full placeholder-current" />
               </div>
             </div>
 
-            {/* Center: Logo (Connected simply with Link) */}
+            {/* Center: Logo */}
             <div className="flex-1 text-center">
-              <Link to="/" className="text-2xl font-bold tracking-tighter">
+              <Link to="/" className="text-xl md:text-2xl font-bold tracking-tighter">
                 BELLAVITA<span className="text-[9px] align-top">®</span>
               </Link>
             </div>
 
-            {/* Right: Icons */}
-            
-
-            {/* Right: Icons */}
-            <div className="flex-1 flex justify-end items-center gap-5">
-              <Search className="lg:hidden w-5 h-5" />
+            {/* Right Section */}
+            <div className="flex-1 flex justify-end items-center gap-4">
+              {/* Mobile Search Icon */}
+              <Search className="lg:hidden w-5 h-5 cursor-pointer" onClick={() => setIsMobileSearchOpen(true)} />
               
-              {/* --- CHANGE THIS PART --- */}
-              <Link to="/login"> 
-                 <User className="w-5 h-5 cursor-pointer hover:opacity-70" />
-              </Link>
-              {/* ------------------------ */}
+              <Link to="/login"><User className="w-5 h-5 hidden md:block" /></Link>
+              
+              <div className="relative cursor-pointer" onClick={() => setIsCartOpen(true)}>
+                <ShoppingBag className="w-5 h-5" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-600 text-white text-[8px] rounded-full w-3.5 h-3.5 flex items-center justify-center font-bold">
+                    {cartCount}
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
 
-              <div className="relative" onClick={() => setIsCartOpen(true)}> {/* Click to Open */}
-        <ShoppingBag className="w-5 h-5 cursor-pointer hover:opacity-70" />
+          {/* Desktop Links Only */}
+          <div className="hidden lg:flex justify-center space-x-8 pb-3 text-[11px] font-bold uppercase tracking-widest">
+            {navLinks.map((link) => (
+              <Link key={link.name} to={link.path} className={`${link.color || ''} hover:opacity-60 transition-all`}>{link.name}</Link>
+            ))}
+          </div>
+        </nav>
+      </header>
+
+      {/* Mobile Sidebar Menu (Drawer) */}
+      <div className={`fixed inset-0 z-120 transition-all ${isMobileMenuOpen ? "visible" : "invisible"}`}>
+        <div className={`absolute inset-0 bg-black/50 transition-opacity ${isMobileMenuOpen ? "opacity-100" : "opacity-0"}`} onClick={() => setIsMobileMenuOpen(false)} />
         
-        {/* Dynamic Cart Count */}
-        <span className="absolute -top-1 -right-1 bg-red-600 text-white text-[8px] rounded-full w-3 h-3 flex items-center justify-center font-bold">
-            {cartCount}
-        </span>
-      </div>
+        <div className={`absolute left-0 top-0 h-full w-[280px] bg-white transition-transform duration-300 shadow-xl ${isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"}`}>
+          <div className="p-5 flex flex-col">
+            <div className="flex justify-between items-center mb-10">
+              <span className="font-bold text-lg tracking-widest">MENU</span>
+              <X className="w-6 h-6 cursor-pointer" onClick={() => setIsMobileMenuOpen(false)} />
             </div>
             
-          </div>
-
-          {/* Bottom Menu Links (Connected simply with Link) */}
-          <div className="hidden lg:flex justify-center space-x-6 pb-3 text-[11px] font-bold tracking-widest uppercase">
-            
-            <Link to="/crazy-deals" className="text-red-500 hover:text-black transition-colors relative group/item">
-                Crazy Deals
-                <span className="absolute left-0 bottom-0 w-0 h-px bg-black transition-all duration-300 group-hover/item:w-full"></span>
-            </Link>
-
-            <Link to="/shop" className="hover:text-black transition-colors relative group/item">
-                Shop All
-                <span className="absolute left-0 bottom-0 w-0 h-px bg-black transition-all duration-300 group-hover/item:w-full"></span>
-            </Link>
-
-            <Link to="/bath&body" className="hover:text-black transition-colors relative group/item">
-                bath&body
-                <span className="absolute left-0 bottom-0 w-0 h-px bg-black transition-all duration-300 group-hover/item:w-full"></span>
-            </Link>
-            <Link to="/bestseller" className="hover:text-black transition-colors relative group/item">
-                Bestsellers
-                <span className="absolute left-0 bottom-0 w-0 h-px bg-black transition-all duration-300 group-hover/item:w-full"></span>
-            </Link>
-            <Link to="/gifting" className="hover:text-black transition-colors relative group/item">
-                Gifting
-                <span className="absolute left-0 bottom-0 w-0 h-px bg-black transition-all duration-300 group-hover/item:w-full"></span>
-            </Link>
-
-            <Link to="/perfumes" className="hover:text-black transition-colors relative group/item">
-                Perfumes
-                <span className="absolute left-0 bottom-0 w-0 h-px bg-black transition-all duration-300 group-hover/item:w-full"></span>
-            </Link>
-
-            <Link to="/Newarrivals" className="hover:text-black transition-colors relative group/item">
-                New Arrivals
-                <span className="absolute left-0 bottom-0 w-0 h-px bg-black transition-all duration-300 group-hover/item:w-full"></span>
-            </Link>
-
+            <div className="flex flex-col gap-6">
+              {navLinks.map((link) => (
+                <Link 
+                  key={link.name} 
+                  to={link.path} 
+                  className={`text-sm font-bold uppercase tracking-widest ${link.color || 'text-black'}`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
-      </nav>
-    </header>
+      </div>
+    </>
   );
 };
 
