@@ -2,10 +2,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-// ✅ Correct Imports (Small folders)
+
 import Navbar from './components/Navbar';
 import Home from './Pages/Home';
-import ProductDetails from './Pages/Productdetails';
+import ProductDetails from './Pages/ProductDetails';
 import CrazyDeals from './components/CrazyDeals';
 import Footer from './components/Footer';
 import Shop from './components/Shop';
