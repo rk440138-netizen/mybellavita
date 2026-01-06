@@ -23,7 +23,7 @@ This project is intended for **learning and portfolio purposes only** and does *
 ✔ Cart page with quantity adjustments  
 ✔ Responsive design for mobile & desktop  
 
-> 💡 Backend (APIs, database, auth) should be added separately for real shopping functionality.
+
 
 ---
 
@@ -34,8 +34,8 @@ This project is intended for **learning and portfolio purposes only** and does *
 | UI | **React** |
 | Build Tool | **Vite** |
 | Routing | React Router |
-| State Management | React Context / Redux (optional) |
-| Styling | CSS / Tailwind / Styled Components |
+| State Management | React Context |
+| Styling | CSS / Tailwind |
 | Linting | ESLint |
 | Icons | Icon library of choice |
 
