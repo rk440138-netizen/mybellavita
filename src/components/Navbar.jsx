@@ -47,7 +47,7 @@ const Navbar = () => {
 
   return (
     <>
-      {/* Mobile Search Overlay (Full Width under Top Bar) */}
+
       {isMobileSearchOpen && (
         <div className="fixed top-0 left-0 w-full bg-white z-110 p-4 shadow-md lg:hidden flex items-center gap-3 animate-in slide-in-from-top">
           <Search className="w-5 h-5 text-gray-400" />
@@ -63,7 +63,6 @@ const Navbar = () => {
 
       <header className={isHomePage ? "absolute top-0 w-full z-50 group text-white hover:text-black transition-all duration-500" : "sticky top-0 w-full z-50 bg-white shadow-sm text-black"}>
         
-        {/* Top Bar */}
         <div className="bg-black text-white text-center text-[10px] py-2 font-medium uppercase tracking-widest">
           {messages[msgIndex]}
         </div>
@@ -73,27 +72,27 @@ const Navbar = () => {
 
           <div className="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
             
-            {/* Left Section */}
+           
             <div className="flex-1 flex items-center gap-4">
               <Menu className="lg:hidden w-6 h-6 cursor-pointer" onClick={() => setIsMobileMenuOpen(true)} />
               
-              {/* Desktop Search Only */}
+              
               <div className="hidden lg:flex items-center border-b border-current py-1 w-64">
                 <Search className="w-4 h-4 mr-2 opacity-70" />
                 <input type="text" placeholder={placeholder} className="bg-transparent outline-none text-xs w-full placeholder-current" />
               </div>
             </div>
 
-            {/* Center: Logo */}
+            
             <div className="flex-1 text-center">
               <Link to="/" className="text-xl md:text-2xl font-bold tracking-tighter">
                 BELLAVITA<span className="text-[9px] align-top">®</span>
               </Link>
             </div>
 
-            {/* Right Section */}
+            
             <div className="flex-1 flex justify-end items-center gap-4">
-              {/* Mobile Search Icon */}
+              
               <Search className="lg:hidden w-5 h-5 cursor-pointer" onClick={() => setIsMobileSearchOpen(true)} />
               
               <Link to="/login"><User className="w-5 h-5 hidden md:block" /></Link>
@@ -109,7 +108,7 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Desktop Links Only */}
+          
           <div className="hidden lg:flex justify-center space-x-8 pb-3 text-[11px] font-bold uppercase tracking-widest">
             {navLinks.map((link) => (
               <Link key={link.name} to={link.path} className={`${link.color || ''} hover:opacity-60 transition-all`}>{link.name}</Link>
@@ -118,7 +117,7 @@ const Navbar = () => {
         </nav>
       </header>
 
-      {/* Mobile Sidebar Menu (Drawer) */}
+     
       <div className={`fixed inset-0 z-120 transition-all ${isMobileMenuOpen ? "visible" : "invisible"}`}>
         <div className={`absolute inset-0 bg-black/50 transition-opacity ${isMobileMenuOpen ? "opacity-100" : "opacity-0"}`} onClick={() => setIsMobileMenuOpen(false)} />
         

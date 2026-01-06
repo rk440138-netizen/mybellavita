@@ -1,16 +1,44 @@
-# React + Vite
+# Bellavita Organic — E-Commerce Clone (React + Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Bellavita Organic Clone** is a frontend web application built with **React** and **Vite** that replicates the UI/UX of the official Bellavita Organic online store — an Indian D2C beauty & personal care e-commerce site featuring perfumes, cosmetics, skincare, bath & body products, and gift sets. 
 
-Currently, two official plugins are available:
+This project is intended for **learning and portfolio purposes only** and does **not** include a production backend or live payment processing.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🛍️ Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+📌 Product browsing by category:  
+- **Perfumes**  
+- **Bath & Body**  
+- **Cosmetics** 
+- **Skincare**  
+- **Gift Sets & Combos**  
+*(mirrors site navigation and product grouping) :contentReference[oaicite:2]{index=2}*
 
-## Expanding the ESLint configuration
+✔ Home page with hero banners  
+✔ Category & product listing pages  
+✔ Product detail screens  
+✔ Add to cart functionality (frontend only)  
+✔ Cart page with quantity adjustments  
+✔ Responsive design for mobile & desktop  
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+> 💡 Backend (APIs, database, auth) should be added separately for real shopping functionality.
+
+---
+
+## 📦 Tech Stack
+
+| Category | Technology |
+|----------|------------|
+| UI | **React** |
+| Build Tool | **Vite** |
+| Routing | React Router |
+| State Management | React Context / Redux (optional) |
+| Styling | CSS / Tailwind / Styled Components |
+| Linting | ESLint |
+| Icons | Icon library of choice |
+
+---
+
+
